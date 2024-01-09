@@ -1,0 +1,11 @@
+apiVersion: v1 # String
+kind: Pod # String
+metadata: # Object
+  name: nginx # String
+  labels: # String
+    app: nginx
+    type: web
+spec: # String
+  containers: # Array of Objects
+    - name: nginx
+      image: nginx:1.14.2-alpine

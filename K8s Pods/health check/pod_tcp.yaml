@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: goproxy
+  labels:
+    app: goproxy
+spec:
+  containers:
+    - name: goproxy
+      image: k8s.gcr.io/goproxy:0.1
+      ports:
+        - containerPort: 8080
+          name: goproxy
+      livenessProbe:
+        tcpSocket:
+          port: goproxy
+        initialDelaySeconds: 15
+        periodSeconds: 20
+      readinessProbe:
+        tcpSocket:
+          port: goproxy
+        initialDelaySeconds: 5
+        periodSeconds: 10
