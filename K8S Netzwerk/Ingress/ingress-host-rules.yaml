@@ -1,0 +1,15 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: wordpress
+  namespace: wordpress
+spec:
+  rules:
+    - host: www.firma.tls
+      http:
+        paths:
+          - backend:
+              serviceName: wordpress
+              servicePort: 80
+            path: /
+            pathType: ImplementationSpecific

@@ -1,0 +1,10 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: wordpress
+  namespace: wordpress
+spec:
+  rules:
+    backend:
+      serviceName: wordpress-svc
+      servicePort: 80

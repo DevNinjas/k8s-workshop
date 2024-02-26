@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/tls-acme: "true"
+  name: api-gateway
+spec:
+  rules:
+    - host: www.firma.tls
+      http:
+        paths:
+          - backend:
+              serviceName: wordpress
+              servicePort: 80
+            path: /
+            pathType: ImplementationSpecific
+  tls:
+    - hosts:
+        - www.firma.tls
+      secretName: firma-tls
+
