@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+  labels: # Labels von Deployment
+    app: nginx
+    type: web
+spec:
+  selector:
+    matchLabels: # Selektor zum Auffinden der Pods
+      app: nginx
+  replicas: 2
+  template:
+    metadata:
+      name: nginx
+      labels:  # Labels von pod
+        app: nginx
+        type: web
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.14.2
+

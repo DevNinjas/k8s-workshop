@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    app: app1
+spec:
+  containers:
+    - name: nginx
+      image: nginx:1.14.2
+  affinity:
+    nodeAffinity:
+      requiredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: size
+                operator: In
+                values:
+                  - big
+              - key: size
+                operator: In
+                values:
+                  - medium
+              - key: size
+                operator: NotIn
+                values:
+                  - small
