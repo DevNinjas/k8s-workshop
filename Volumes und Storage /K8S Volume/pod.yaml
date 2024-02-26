@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: db-redis
+  labels:
+    app: redis
+    type: db
+spec:
+  containers:
+    - name: redis
+      image: redis
+      ports:
+        - containerPort: 6379
+      volumeMounts:
+        - mountPath: /data
+          name: redis-data
+  volumes:
+    - name: redis-data
+      hostPath:
+        path: /storage/db-redis/data
+        type: Directory

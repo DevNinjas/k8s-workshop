@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-demo
+data:
+  NODE_ENV: "prod"
+
+  nodeEnvs: |
+    NODE_ENV: "prod"
+    PORT: 8080

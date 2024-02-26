@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: configmap-node-pod
+spec:
+  containers:
+    - name: app
+      image: node
+      env:
+        - name: NODE_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: env-demo
+              key: NODE_ENV
+        - name: TEST
+          value: "1234"
+      volumeMounts:
+        - name: config
+          mountPath: "/"
+          readOnly: true
+  volumes:
+    - name: config
+      configMap:
+        name: env-demo
+        items:
+          - key: "nodeEnvs"
+            path: "env"

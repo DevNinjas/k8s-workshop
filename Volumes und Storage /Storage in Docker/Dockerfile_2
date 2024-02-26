@@ -1,0 +1,7 @@
+FROM node:alpine
+
+COPY package.json main.js /home/node/
+
+RUN npm install --only=production
+
+CMD ["npm", "run", "start"]
