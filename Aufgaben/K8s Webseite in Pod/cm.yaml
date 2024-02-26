@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: html-content
+data:
+    index.html: |
+        <html>
+        <head>
+            <title>Webseite</title>
+            <link rel="stylesheet" href="css/app.css">
+        </head>
+        <body>
+            <h1>Webseite</h1>
+            <p>Herzlich Willkommen auf der Webseite</p>
+        </body>
+        </html>
+
+    app.css: |
+      html {
+          background-color: #ff0000;
+          color: #ffffff;
+      }

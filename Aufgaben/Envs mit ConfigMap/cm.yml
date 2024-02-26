@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: envs
+data:
+  NODE_ENV: "prod"
+  REDIS_PASSWORD: "redis"
+  REDIS_HOST: "redis"
+  REDIS_PORT: "6379"

@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mynginx
+  labels:
+    app.kubernetes.io/name: mynginx
+    app.kubernetes.io/instance: mynginx
+    app.kubernetes.io/version: "1.14.2"
+    app.kubernetes.io/managed-by: kubectl
+spec:
+  type: NodePort
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+      nodePort: 30001
+  selector:
+    app.kubernetes.io/name: mynginx
+    app.kubernetes.io/instance: mynginx

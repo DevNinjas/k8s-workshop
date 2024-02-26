@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "WordPress.fullname" . }}-envs
+  {{- if .Values.namespace -}}
+  namespace: {{ .Values.namespace }}
+  {{- end}}
+  labels:
+{{ include "WordPress.labels" . | indent 4 }}
+    type: configs
+    category: configMap
+data:
+  MARIADB_DATABASE: "wordpress"

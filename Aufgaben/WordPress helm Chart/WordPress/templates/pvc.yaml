@@ -1,0 +1,55 @@
+{{ if .Values.persistent.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "WordPress.fullname" . }}-data
+  {{- if .Values.namespace -}}
+  namespace: {{ .Values.namespace }}
+  {{- end}}
+  labels:
+{{ include "WordPress.labels" . | indent 4 }}
+    type: storage
+    category: PersistentVolumeClaim
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: {{ .Values.persistent.dbSize }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "WordPress.fullname" . }}-themes
+  {{- if .Values.namespace -}}
+  namespace: {{ .Values.namespace }}
+  {{- end}}
+  labels:
+{{ include "WordPress.labels" . | indent 4 }}
+    type: storage
+    category: PersistentVolumeClaim
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: {{ .Values.persistent.themeSize }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "WordPress.fullname" . }}-plugins
+  {{- if .Values.namespace -}}
+  namespace: {{ .Values.namespace }}
+  {{- end}}
+  labels:
+{{ include "WordPress.labels" . | indent 4 }}
+    type: storage
+    category: PersistentVolumeClaim
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: {{ .Values.persistent.pluginSize }}
+{{ end}}

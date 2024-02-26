@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webserver
+  labels:
+    app: webserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webserver
+  template:
+    metadata:
+      labels:
+        app: webserver
+    spec:
+      containers:
+        - name: webserver
+          image: nginx:1.25-alpine
+          ports:
+            - name: http
+              containerPort: 80
+          volumeMounts:
+            - name: html-content
+              mountPath: /usr/share/nginx/html
+      volumes:
+        - name: html-content
+          configMap:
+            name: html-content
+            items:
+              - key: index.html
+                path: index.html
+              - key: app.css
+                path: css/app.css

@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+  labels:
+    app: app
+    type: web
+spec:
+  selector:
+    matchLabels:
+      app: app
+      type: web
+  replicas: 2
+  template:
+    metadata:
+      name: app
+      labels:
+        app: app
+        type: web
+    spec:
+        containers:
+          - name: app
+            image: snic/k8s-app:latest
+            ports:
+              - containerPort: 5000
+            env:
+              - name: REDIS_HOST
+                valueFrom:
+                  configMapKeyRef:
+                    name: envs
+                    key: REDIS_HOST
+              - name: REDIS_PORT
+                valueFrom:
+                  configMapKeyRef:
+                    name: envs
+                    key: REDIS_HOST
+              - name: REDIS_PASSWORD
+                valueFrom:
+                  configMapKeyRef:
+                    name: envs
+                    key: REDIS_PASSWORD

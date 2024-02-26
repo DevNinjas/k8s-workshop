@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+  labels:
+    app: app
+    type: web
+spec:
+  selector:
+    matchLabels:
+      app: app
+      type: web
+  replicas: 3
+  template:
+    metadata:
+      name: app
+      labels:
+        app: app
+        type: web
+    spec:
+      containers:
+        - name: app
+          image: snic/k8s-app
+          ports:
+            - containerPort: 5000

@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ include "WordPress.fullname" . }}
+  {{- if .Values.namespace -}}
+  namespace: {{ .Values.namespace }}
+  {{- end}}
+  labels:
+{{ include "WordPress.labels" . | indent 4 }}
+    type: db
+    category: pod
+spec:
+  containers:
+    - name: mariadb
+      image: mariadb
+      ports:
+        - containerPort: 3306
+      env:
+        - name: MARIADB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "WordPress.fullname" . }}-secret-envs
+              key: MARIADB_ROOT_PASSWORD
+        - name: MARIADB_USER
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "WordPress.fullname" . }}-secret-envs
+              key: MARIADB_USER
+        - name: MARIADB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "WordPress.fullname" . }}-secret-envs
+              key: MARIADB_PASSWORD
+        - name: MARIADB_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: {{ include "WordPress.fullname" . }}-envs
+              key: MARIADB_DATABASE
+  {{if .Values.persistent.enabled}}
+      volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: mariadb-data
+  volumes:
+    - name: mariadb-data
+      persistentVolumeClaim:
+        claimName: {{ include "WordPress.fullname" . }}-data
+  {{end}}

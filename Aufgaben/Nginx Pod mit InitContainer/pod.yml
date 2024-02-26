@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-html
+spec:
+    containers:
+    - name: nginx
+      image: nginx:1.24-alpine
+      ports:
+      - name: http
+        containerPort: 80
+      volumeMounts:
+        - mountPath: /usr/share/nginx/html
+          name: html
+          readOnly: true
+    initContainers:
+    - name: init-html
+      image: busybox:1.36
+      command:
+        - 'sh'
+        - '-c'
+        - 'echo "Hallo World" > /html/index.html'
+      volumeMounts:
+        - name: html
+          mountPath: /html
+    volumes:
+    - name: html
+      emptyDir: {}

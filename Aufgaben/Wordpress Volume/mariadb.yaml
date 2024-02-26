@@ -1,0 +1,42 @@
+# Zeigen mit kubectl port-forward pod/db-redis 3808
+apiVersion: v1
+kind: Pod
+metadata:
+  name: db-mariadb
+  labels:
+    app: mariadb
+    type: db
+spec:
+  containers:
+    - name: mariadb
+      image: mariadb
+      ports:
+        - containerPort: 3306
+      env:
+        - name: MARIADB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: secret-envs
+              key: MARIADB_ROOT_PASSWORD
+        - name: MARIADB_USER
+          valueFrom:
+            secretKeyRef:
+              name: secret-envs
+              key: MARIADB_USER
+        - name: MARIADB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: secret-envs
+              key: MARIADB_PASSWORD
+        - name: MARIADB_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: envs
+              key: MARIADB_DATABASE
+      volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: mariadb-data
+  volumes:
+    - name: mariadb-data
+      persistentVolumeClaim:
+        claimName: mariadb-pvc

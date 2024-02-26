@@ -1,0 +1,10 @@
+{{- if .Values.namespace -}}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.namespace }}
+    type: scope
+    category: namespace
+{{- end}}

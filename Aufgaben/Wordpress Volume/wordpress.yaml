@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress
+  labels:
+    app: wordpress
+    type: web
+spec:
+  selector:
+    matchLabels:
+      app: wordpress
+      type: web
+  replicas: 1
+  template:
+    metadata:
+      name: wordpress
+      labels:
+        app: wordpress
+        type: web
+    spec:
+      containers:
+        - name: wordpress
+          image: wordpress
+          ports:
+            - containerPort: 80
+          env:
+            - name: WORDPRESS_DB_HOST
+              value: "mariadb"
+            - name: WORDPRESS_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: secret-envs
+                  key: MARIADB_USER
+            - name: WORDPRESS_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secret-envs
+                  key: MARIADB_PASSWORD
+            - name: WORDPRESS_DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: envs
+                  key: MARIADB_DATABASE
+          volumeMounts:
+            - mountPath: /var/www/html/wp-content/themes/
+              name: themes-data
+            - mountPath: /var/www/html/wp-content/plugins/
+              name: plugins-data
+      volumes:
+        - name: themes-data
+          persistentVolumeClaim:
+            claimName: themes-pvc
+        - name: plugins-data
+          persistentVolumeClaim:
+            claimName: plugins-pvc
