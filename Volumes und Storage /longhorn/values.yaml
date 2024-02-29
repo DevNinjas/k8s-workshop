@@ -1,0 +1,51 @@
+networkPolicies:
+  enabled: false
+  # Available types: k3s, rke2, rke1
+  type: "rke1"
+
+helmPreUpgradeCheckerJob:
+  enabled: true
+
+longhornUI:
+  replicas: 1
+
+ingress:
+  ## Set to true to enable ingress record generation
+  enabled: true
+
+  host: longhorn.k8sw.devninjas.io
+
+  ## Set this to true in order to enable TLS on the ingress record
+  tls: false
+
+  ## Enable this in order to enable that the backend service will be connected at port 443
+  secureBackends: false
+
+  ## If TLS is set to true, you must declare what secret will store the key/certificate for TLS
+  tlsSecret: longhorn-tls
+
+  ## If ingress is enabled you can set the default ingress path
+  ## then you can access the UI by using the following full path {{host}}+{{path}}
+  path: /
+
+  ## Ingress annotations done as key:value pairs
+  ## If you're using kube-lego, you will want to add:
+  ## kubernetes.io/tls-acme: true
+  ##
+  ## For a full list of possible ingress annotations, please see
+  ## ref: https://github.com/kubernetes/ingress-nginx/blob/master/docs/annotations.md
+  ##
+  ## If tls is set to true, annotation ingress.kubernetes.io/secure-backends: "true" will automatically be set
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    # type of authentication
+    nginx.ingress.kubernetes.io/auth-type: basic
+    # name of the secret that contains the user/password definitions
+    nginx.ingress.kubernetes.io/auth-secret: basic-auth
+    # message to display with an appropriate context why the authentication is required
+    nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required - Longhorn UI'
+    # custom max body size for file uploading like backing image uploading
+    nginx.ingress.kubernetes.io/proxy-body-size: 10000m
+
+persistence:
+  defaultClassReplicaCount: 1
