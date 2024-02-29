@@ -6,7 +6,6 @@ metadata:
     app.kubernetes.io/name: app
     app.kubernetes.io/instance: k8s-app
     app.kubernetes.io/version: "1.0"
-    app.kubernetes.io/component: web
     app.kubernetes.io/managed-by: kubectl
 spec:
   replicas: 10
@@ -20,7 +19,6 @@ spec:
         app.kubernetes.io/name: app
         app.kubernetes.io/instance: k8s-app
         app.kubernetes.io/version: "1.0"
-        app.kubernetes.io/component: web
         app.kubernetes.io/managed-by: kubectl
     spec:
       containers:

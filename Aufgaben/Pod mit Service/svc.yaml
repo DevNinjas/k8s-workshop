@@ -13,7 +13,6 @@ spec:
     - name: http
       port: 80
       targetPort: http
-      nodePort: 30001
   selector:
     app.kubernetes.io/name: mynginx
     app.kubernetes.io/instance: mynginx

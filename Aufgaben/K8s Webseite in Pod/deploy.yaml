@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: webserver
+  namespace: nico
   labels:
     app: webserver
 spec:
@@ -32,3 +33,5 @@ spec:
                 path: index.html
               - key: app.css
                 path: css/app.css
+              - key: app.js
+                path: js/app.js
