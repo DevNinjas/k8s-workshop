@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: apparmor-pod
+  annotations:
+    container.apparmor.security.beta.kubernetes.io/nginx: "localhost/nginx"
+spec:
+  containers:
+    - name: nginx
+      image: mein-image
