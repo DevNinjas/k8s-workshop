@@ -1,0 +1,24 @@
+# Run fist:
+# kubectl create ns monitoring
+# kubectl create secret generic basic-auth -n monitoring --from-file=./auth
+# helm upgrade --install prometheus prometheus/prometheus -f prometheus-values.yaml --namespace monitoring
+# helm upgrade --install loki grafana/loki-stack --namespace monitoring
+
+forceNamespace: "monitoring"
+
+server:
+  ingress:
+    enabled: true
+    host: prometheus.k8sw.devninjas.io
+    annotations:
+      kubernetes.io/tls-acme: "true"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      nginx.ingress.kubernetes.io/auth-type: basic
+      nginx.ingress.kubernetes.io/auth-secret: basic-auth
+      nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required - Grafana UI'
+    hosts:
+      - prometheus.k8sw.devninjas.io
+    tls:
+      - secretName: prometheus-tls
+        hosts:
+          - prometheus.k8sw.devninjas.io

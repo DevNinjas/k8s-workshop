@@ -1,0 +1,28 @@
+# Run fist:
+# kubectl create ns monitoring
+# kubectl create secret generic basic-auth -n monitoring --from-file=./auth
+# helm upgrade --install loki grafana/loki-stack -f grafana-values.yaml --namespace monitoring
+# kubectl get secret --namespace monitoring loki-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+# helm upgrade --install promtail grafana/promtail --namespace monitoring
+# User: admin
+# Password: izVVRDxvUghkeHny
+# Password in Grafana (admin): 8QE4haAfoVCBowyxK757aPyusMdILxeWUD61i2bT
+
+grafana:
+  enabled: true
+  namespaceOverride: "monitoring"
+  ingress:
+    enabled: true
+    host: grafana.k8sw.devninjas.io
+    annotations:
+      kubernetes.io/tls-acme: "true"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      nginx.ingress.kubernetes.io/auth-type: basic
+      nginx.ingress.kubernetes.io/auth-secret: basic-auth
+      nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required - Grafana UI'
+    hosts:
+      - grafana.k8sw.devninjas.io
+    tls:
+      - secretName: grafana-tls
+        hosts:
+          - grafana.k8sw.devninjas.io
