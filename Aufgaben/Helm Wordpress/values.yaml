@@ -1,0 +1,19 @@
+## Configure the ingress resource that allows you to access the WordPress installation
+## ref: https://kubernetes.io/docs/concepts/services-networking/ingress/
+##
+ingress:
+  enabled: true
+  hostname: nico.k8sw.devninjas.io
+  # Set if you want to use tls
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    ingress.kubernetes.io/ssl-redirect: "true"
+  tls: true
+
+service:
+  type: ClusterIP
+
+wordpressBlogName: "Nico's Blog"
+wordpressPassword: "admin"
+wordpressUsername: "nico"
