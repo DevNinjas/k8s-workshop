@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: db-redis
+  namespace: app
+  labels:
+    app.kubernetes.io/name: redis
+    app.kubernetes.io/instance: redis
+    app.kubernetes.io/version: "7.2.4"
+spec:
+  containers:
+    - name: redis
+      image: redis:7.2.4
+      ports:
+        - name: redis
+          containerPort: 6379
